@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-KCH08CHSK9";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -41,6 +44,20 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-cream text-ink font-sans antialiased">
         {children}
+
+        {/* Google Analytics 4 — gtag.js via next/script (afterInteractive, works with static export) */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );
